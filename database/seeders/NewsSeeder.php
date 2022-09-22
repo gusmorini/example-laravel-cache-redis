@@ -13,6 +13,7 @@ class NewsSeeder extends Seeder
      */
     public function run()
     {
-        //
+        ini_set('memory_limit', '512M');
+        \App\Models\News::factory(1000)->create();
     }
 }
