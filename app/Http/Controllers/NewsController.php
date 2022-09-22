@@ -20,53 +20,20 @@ class NewsController extends Controller
      */
     public function index()
     {
-        /**
-         * adicionar dados no cache com pretis:
-         * o método put espera 3 parâmetros
-         * chave, valor, tempo em segundos para 
-         * experirar os dados da memória
-         */
-
-        // Cache::put('chave', 'valor', 10);
-
-        /**
-         * recuperar dados do cache com pretis:
-         * o método get espera somente a chave
-         */
-
-        // $value_cache = Cache::get('chave');
-
-        /**
-         * realizando o teste, inserindo o dado
-         * e comentando a linha da inserção
-         * dentro de 10 segundos $value_cache retorna null
-         */
-
-        // dd($value_cache);
-
-        // ---------------------------------------------------------
-
         // nome da chave a ser salva no cache
         $cache_key = 'first_news';
         // tempo de expiração do cache em segundos
         $cache_time = 120;
-        // array a ser retornado para view
-        $data = [];
-
         /**
-         * metodo has() verificar se a cache existe no cache
-         * caso existir os dados vão ser recuperados do cache
-         * caso contrário será feito um novo request para o banco
-         * e salvo os novos dados em cache, dessa forma toda requisição
-         * feita dentro do tempo limite pré-configurado vai utilizar o
-         * cache diminuindo o consumo do banco de dados.
+         * método remember espera 3 parâmetros
+         * chave, tempo expiração, função de callback
+         * decide se é possivel recuperar os dados do cache
+         * ou necessário nova requisição de toda forma
+         * retorna um array.
          */
-        if (Cache::has($cache_key)) {
-            $data = Cache::get($cache_key);
-        } else {
-            $data = $this->news->orderByDesc('created_at')->limit(10)->get();
-            Cache::put($cache_key, $data, $cache_time);
-        }
+        $data = Cache::remember($cache_key, $cache_time, function () {
+            return $this->news->orderByDesc('created_at')->limit(10)->get();
+        });
         // retorna os dados para view
         return view('welcome', ['news' => $data]);
     }
