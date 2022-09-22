@@ -15,7 +15,8 @@ class NewsController extends Controller
      */
     public function index()
     {
-        //
+        $news = News::orderByDesc('created_at')->limit(10)->get();
+        return view('welcome', ['news' => $news]);
     }
 
     /**
