@@ -14,7 +14,8 @@ class NewsFactory extends Factory
     public function definition()
     {
         return [
-            //
+            'title' => $this->faker->text(rand(10, 40)),
+            'content' => $this->faker->text(rand(200, 400))
         ];
     }
 }
