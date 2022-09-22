@@ -6,7 +6,7 @@
 }
 
 body {
-    background-color: #f3f1ef;
+    background-color: #f3eff3;
     color: #343a3a;
 }
 
@@ -43,8 +43,7 @@ body {
     background-color: #8faeb7;
     color: white;
     padding: 1rem 2rem;
-    border-top-right-radius: 0.5rem;
-    border-top-left-radius: 0.5rem;
+    border-radius: inherit;
 }
 
 .new p {
